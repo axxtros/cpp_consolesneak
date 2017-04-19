@@ -27,3 +27,15 @@
 *.exe
 *.out
 *.app
+.vs/cg/v14/.suo
+cg.VC.db
+*.log
+cg/x64/Debug/cg.tlog/cg.lastbuildstate
+cg/x64/Debug/cg.tlog/CL.command.1.tlog
+*.tlog
+cg/x64/Debug/vc140.idb
+*.ilk
+x64/Debug/cg.pdb
+*.pdb
+*.opendb
+cg/cg.vcxproj.user

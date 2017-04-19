@@ -1,8 +1,9 @@
-#pragma once
+﻿#pragma once
 #ifndef CONSOLEMANAGER_H
 #define CONSOLEMANAGER_H
 
 #include <windows.h>
+#include <wincon.h>
 #include <string>
 #include <tchar.h>
 #include <random>
@@ -18,10 +19,10 @@ class ConsoleWindowManager {
 	static const int CONSOLE_WINDOW_WIDTH = 1000;
 	static const int CONSOLE_WINDOW_HEIGHT = 600;
 	
-	const string GAME_NAME = "Snake Game v.: 1.0";	
+	const string GAME_NAME = "Snake Game v.: 1.0";
 	const bool IS_CENTER_SCREEN = true;	
 	const string HORIZONTAL_LEVEL_WALL = "-";
-	const string VERTICAL_LEVEL_WALL = "|";	
+	const string VERTICAL_LEVEL_WALL = "|";
 	const int DEFAULT_CONSOLE_COLOR = 10;
 
 	const int LEVEL_TOP = 2;
@@ -29,7 +30,10 @@ class ConsoleWindowManager {
 	const int LEVEL_WIDTH = 100;
 	const int LEVEL_HEIGHT = 30;	
 
+	const int SNAKE_HEAD_COLOR = 13;
+	const string SYMBOL = "■"; 
 	const string SNAKE_ELEMENT = "#";
+	const int STARTER_SNAKE_LENGTH = 4;
 
 	typedef tuple<int, int> snakeCoord;				//http://www.oracle.com/technetwork/articles/servers-storage-dev/c-array-containers-2252536.html
 	
@@ -41,6 +45,7 @@ private:
 	int mScreenWidth;
 	int mScreenHeight;
 	int mSnakeDirection;
+	int mSnakeLength;
 	vector <snakeCoord> mSnake;
 	void init(int&, int&);
 	void initStartPos();

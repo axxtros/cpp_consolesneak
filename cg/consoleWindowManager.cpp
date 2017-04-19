@@ -33,12 +33,15 @@ void ConsoleWindowManager::init(int& mScreenWidth, int& mScreenHeight)
 		MoveWindow(mhWnd, 0, 0, CONSOLE_WINDOW_WIDTH, CONSOLE_WINDOW_HEIGHT, TRUE);
 	}
 	SetConsoleTitle(TEXT("Snake"));
+	SetConsoleOutputCP(CP_UTF8);	
 }
 
 void ConsoleWindowManager::initLayer()
 {
+	writeStrPos(0, 0, SYMBOL, DEFAULT_CONSOLE_COLOR);
+
 	int pos = (LEVEL_LEFT + (LEVEL_WIDTH / 2)) - (GAME_NAME.length() / 2);
-	writeStrPos(pos, 0, GAME_NAME, DEFAULT_CONSOLE_COLOR);
+	writeStrPos(pos, 0, GAME_NAME, DEFAULT_CONSOLE_COLOR);	
 
 	for (int i = 0; i != LEVEL_WIDTH + 1; i++) {
 		writeStrPos(LEVEL_LEFT + i, LEVEL_TOP, HORIZONTAL_LEVEL_WALL, DEFAULT_CONSOLE_COLOR);
@@ -58,6 +61,7 @@ void ConsoleWindowManager::initGame()
 
 void ConsoleWindowManager::initStartPos()
 {		
+	mSnakeLength = STARTER_SNAKE_LENGTH;
 	mSnakeDirection = getRandomNumber(0, 3);
 	int startX = getRandomNumber(LEVEL_LEFT + 1, LEVEL_LEFT + LEVEL_WIDTH - 1);
 	int startY = getRandomNumber(LEVEL_TOP + 1, LEVEL_TOP + LEVEL_HEIGHT - 1);
@@ -97,8 +101,12 @@ int ConsoleWindowManager::gameLoop()
 		if (isWallCollision(snakeHead)) {
 			return 0;
 		}
+		if (mSnake.size() > mSnakeLength) {		//a végének a törlése
+			writeStrPos(get<0>(mSnake.at(mSnake.size() - 1)), get<1>(mSnake.at(mSnake.size() - 1)), SNAKE_ELEMENT, 0);
+			mSnake.pop_back();
+		}
 		//this_thread::sleep_for(std::chrono::seconds(1));
-		Sleep(100);
+		Sleep(50);
 	}	
 }
 
@@ -132,9 +140,17 @@ bool ConsoleWindowManager::isWallCollision(const snakeCoord& headCoord)
 void ConsoleWindowManager::writeSnake()
 {
 	if (!mSnake.empty()) {
+		bool firstElement = true;
 		for each (snakeCoord coord in mSnake)
 		{
-			writeStrPos(get<0>(coord), get<1>(coord), SNAKE_ELEMENT, DEFAULT_CONSOLE_COLOR);
+			if (firstElement) {
+				writeStrPos(get<0>(coord), get<1>(coord), SNAKE_ELEMENT, SNAKE_HEAD_COLOR);
+				firstElement = false;
+			}
+			else {
+				writeStrPos(get<0>(coord), get<1>(coord), SNAKE_ELEMENT, DEFAULT_CONSOLE_COLOR);
+			}
+			
 		}
 	}
 }

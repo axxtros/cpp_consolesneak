@@ -30,7 +30,7 @@ void test() {
 	ConsoleWindowManager* cwm2 = new ConsoleWindowManager();
 	cwm2->consoleTest();
 	cout << i << "db" << endl;
-	delete cwm2;
+	delete cwm2; 
 	}*/
 }
 

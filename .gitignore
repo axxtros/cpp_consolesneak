@@ -42,3 +42,4 @@ cg/cg.vcxproj.user
 cg/cg.aps
 x64/Release/cg.iobj
 *.ipdb
+cg/rec.dat

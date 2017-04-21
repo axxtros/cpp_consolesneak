@@ -28,10 +28,12 @@ using namespace std;
 
 class ConsoleWindowManager {	
 	
+	const string ABOUT = "Axtros 2017";
+
 	static const int CONSOLE_WINDOW_WIDTH = 1000;
 	static const int CONSOLE_WINDOW_HEIGHT = 600;
 	
-	const string GAME_NAME = "Snake Game v.: 1.0";	
+	const string GAME_NAME = "Snake Game v.: 1.0";
 	const string MENU_NEW_GAME = "New Game";
 	const string MENU_EXIT = "Exit";
 	const string RECORDS = "Records";
@@ -55,6 +57,7 @@ class ConsoleWindowManager {
 	//char a = 'ф';
 	const string SNAKE_ELEMENT = "#";	
 	const int STARTER_SNAKE_LENGTH = 4;
+	const unsigned int GAME_SLEEP = 50;
 
 	const string TARGET_ELEMENT = "#";
 	const int TARGET_COLOR = 14;
@@ -65,6 +68,7 @@ class ConsoleWindowManager {
 	struct Record {
 		string date;
 		string point;		
+		
 		//https://www.codeproject.com/Articles/38381/STL-Sort-Comparison-Function
 		bool operator < (const Record& rhs)
 		{			
@@ -73,24 +77,24 @@ class ConsoleWindowManager {
 			return pointValue1 > pointValue2;
 			//return this-> pointValue1 < rhs.pointValue2;
 		}
-	};		
+	};
 
 private:
 	HANDLE mHConsole; 
 	HWND mhWnd;
 	RECT mRect;
 	COORD mCoord;
-	int mMenuFirstLine;
-	int mScreenWidth;
-	int mScreenHeight;
-	int mSnakeDirection;
-	int mSnakeLength;
-	int mPlayerPoint;
+	unsigned int mMenuFirstLine;
+	unsigned int mScreenWidth;
+	unsigned int mScreenHeight;
+	unsigned int mSnakeDirection;
+	unsigned int mSnakeLength;
+	unsigned int mPlayerPoint;	
 	Modes modes;
 	vector <coord> mSnake;
 	vector <Record> mRecords;
 	coord mTarget;
-	void initConsoleWindow(int&, int&);
+	void initConsoleWindow(unsigned int&, unsigned int&);
 	void init(Modes&);
 	void initAndCtrlMainMenu();
 	void refreshMainMenu(const int&, bool);	

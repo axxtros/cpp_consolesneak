@@ -40,7 +40,7 @@ ConsoleWindowManager::~ConsoleWindowManager() {
 	//cout << "Object is being deleted" << endl;
 }
 
-void ConsoleWindowManager::initConsoleWindow(int& mScreenWidth, int& mScreenHeight)
+void ConsoleWindowManager::initConsoleWindow(unsigned int& mScreenWidth, unsigned int& mScreenHeight)
 {		
 	mhWnd = GetDesktopWindow();
 	GetWindowRect(mhWnd, &mRect);
@@ -115,8 +115,6 @@ void ConsoleWindowManager::refreshMainMenu(const int& selectedMenu, bool refresh
 	}
 }
 
-
-
 void ConsoleWindowManager::initGameLayer()
 {	
 	for (int i = 0; i != LEVEL_WIDTH + 1; i++) {
@@ -126,7 +124,8 @@ void ConsoleWindowManager::initGameLayer()
 	for (int i = 1; i != LEVEL_HEIGHT; i++) {
 		writeStrPos(LEVEL_LEFT, LEVEL_TOP + i, VERTICAL_LEVEL_WALL, DEFAULT_CONSOLE_COLOR);
 		writeStrPos(LEVEL_LEFT + LEVEL_WIDTH, LEVEL_TOP + i, VERTICAL_LEVEL_WALL, DEFAULT_CONSOLE_COLOR);
-	}	
+	}
+	writeStrPos((LEVEL_LEFT + LEVEL_WIDTH) - (ABOUT.length() - 1), (LEVEL_TOP + LEVEL_HEIGHT + 1), ABOUT, DEFAULT_CONSOLE_COLOR);
 }
 
 void ConsoleWindowManager::initGame()
@@ -196,7 +195,14 @@ int ConsoleWindowManager::gameLoop()
 			mSnake.pop_back();
 		}		
 		refreshGameArea();
-		Sleep(50);
+		
+		if (mSnakeDirection == 2 || mSnakeDirection == 3) {
+			Sleep(GAME_SLEEP - 10);								//vízszintesen egy kicsi gyorsabb, mert meglátásom szerint úgy játszhatóbb :)
+		}
+		else {
+			Sleep(GAME_SLEEP);
+		}	
+		
 	}	
 
 	saveRecords();
@@ -228,7 +234,7 @@ void ConsoleWindowManager::loadRecords()
 		
 		std::ifstream file(RECORD_FILE);
 		std::string line;
-		int counter = 1;
+		short int counter = 1;
 		string dateStr;
 		mRecords.clear();
 		while (std::getline(file, line))
@@ -360,8 +366,7 @@ void ConsoleWindowManager::refreshGameArea()
 			}
 			else {
 				writeStrPos(get<0>(sCoord), get<1>(sCoord), SNAKE_ELEMENT, SNEAK_BODY_COLOR);
-			}
-			
+			}			
 		}
 	}
 	if (mIsExistTarget) {

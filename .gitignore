@@ -39,3 +39,6 @@ x64/Debug/cg.pdb
 *.pdb
 *.opendb
 cg/cg.vcxproj.user
+cg/cg.aps
+x64/Release/cg.iobj
+*.ipdb

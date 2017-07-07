@@ -5,8 +5,7 @@
 
 using namespace std;
 
-int wmain(int argc, wchar_t *argv[], wchar_t *envp[]) {
-	
+int wmain(int argc, wchar_t *argv[], wchar_t *envp[]) {		
 	ConsoleWindowManager *cwm = new ConsoleWindowManager();
 	
 	cin.ignore();	

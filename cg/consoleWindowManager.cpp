@@ -8,7 +8,8 @@ ConsoleWindowManager::ConsoleWindowManager() {
 	mHConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	initConsoleWindow(mScreenWidth, mScreenHeight);
 	modes = MENUMOD;
-	init(modes);
+	init(modes);	
+	szamol(&DEFAULT_CONSOLE_COLOR);	
 	//readFile();	
 }
 
@@ -66,6 +67,9 @@ void ConsoleWindowManager::init(Modes& modes)
 	int pos = (LEVEL_LEFT + (LEVEL_WIDTH / 2)) - (GAME_NAME.length() / 2);
 	writeStrPos(pos, 0, GAME_NAME, DEFAULT_CONSOLE_COLOR);
 
+	wchar_t ch2 = L'\u25A0';
+	writeWCharPos(pos, 1, ch2, DEFAULT_CONSOLE_COLOR);
+	
 	if (modes == MENUMOD) {
 		initAndCtrlMainMenu();
 	}
@@ -77,6 +81,11 @@ void ConsoleWindowManager::init(Modes& modes)
 
 void ConsoleWindowManager::initAndCtrlMainMenu()
 {
+	/*locale hun("hungarian");
+	locale::global(hun);
+	wcout << hun.name().c_str() << endl;
+	wcout << L"ÁÁÁÁ" << endl;	*/
+
 	int selectedMenu = 1;
 	refreshMainMenu(selectedMenu, true);
 	while (!isKeydown(VK_RETURN)) {
@@ -201,9 +210,8 @@ int ConsoleWindowManager::gameLoop()
 		}
 		else {
 			Sleep(GAME_SLEEP);
-		}	
-		
-	}	
+		}		
+	}
 
 	saveRecords();
 	modes = MENUMOD;
@@ -336,6 +344,16 @@ void ConsoleWindowManager::refreshPlayerPoint() {
 	writeStrPos((LEVEL_LEFT + LEVEL_WIDTH) - (pointStr.length() - 1), LEVEL_TOP - 1, pointStr, DEFAULT_CONSOLE_COLOR);
 }
 
+/*
+	Ez csak c++ teszt, nem a program sajátja.
+*/
+void ConsoleWindowManager::szamol(const int* value)
+{
+	int x = 2;			//int létrehozása
+	int* p = &x;		//int típusú mutató, amelyben az x címét tároljuk
+	int& r = x;			//int típusú referencia, amely az x változóra hivatkozik
+}
+
 void ConsoleWindowManager::generateTarget()
 {
 	while (!mIsExistTarget) {
@@ -381,6 +399,15 @@ void ConsoleWindowManager::writeStrPos(const int & x, const int & y, const strin
 	SetConsoleCursorPosition(mHConsole, mCoord);
 	SetConsoleTextAttribute(mHConsole, color);
 	cout << str << endl;
+}
+
+void ConsoleWindowManager::writeWCharPos(const int & x, const int & y, const wchar_t ch, const int & color)
+{
+	mCoord.X = x;
+	mCoord.Y = y;
+	SetConsoleCursorPosition(mHConsole, mCoord);
+	SetConsoleTextAttribute(mHConsole, color);
+	wcout << ch;
 }
 
 int ConsoleWindowManager::getRandomNumber(const int & min, const int & max)

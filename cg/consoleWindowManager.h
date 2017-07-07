@@ -23,6 +23,7 @@
 #include <ctime>
 #include <chrono>
 #include <algorithm>
+#include <fcntl.h>
 
 using namespace std;
 
@@ -104,8 +105,9 @@ private:
 	void refreshGameArea();
 	int gameLoop();
 	void saveRecords();
-	void loadRecords();
-	void writeStrPos(const int& x, const int& y, const string& ch, const int& color);
+	void loadRecords();	
+	void writeStrPos(const int& x, const int& y, const string& ch, const int& color = 10);
+	void writeWCharPos(const int& x, const int& y, const wchar_t ch, const int& color = 10);
 	int getRandomNumber(const int& min, const int& max);
 	bool isKeydown(const int& key);
 	bool isWallCollision(const coord&);
@@ -116,6 +118,7 @@ private:
 	bool mIsExistTarget;
 	void generateTarget();
 	void refreshPlayerPoint();
+	void szamol(const int*);
 	//int compareRecords(const Record&, const Record&);
 	//int compareRecords(const void* first, const void* second);
 	struct recComperator;
